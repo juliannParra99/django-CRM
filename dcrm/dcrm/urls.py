@@ -19,6 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('website.urls')),: Esta línea define una ruta vacía '' (la raíz del sitio) y utiliza la función include() para incluir las URLs de otra aplicación llamada 'website.urls'. Esto significa que todas las URLs definidas en el archivo urls.py dentro de la aplicación llamada "website" se manejarán bajo esta ruta vacía.
     path('', include('website.urls')),
 ]
