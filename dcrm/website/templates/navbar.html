@@ -7,9 +7,17 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <!-- Con esto hacemos que si el usuario este autenticado se muestre un logged out, y sino un login; en este caso el Logout redirije a la vista del que renderiza el metodo logout, entonces el usuario se va a desloguear y despues redirije a home para loggear de nuevo-->
+          {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
+          {% else%}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Login</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

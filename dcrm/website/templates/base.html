@@ -10,7 +10,7 @@
     {% include 'navbar.html' %}
     <div class="container">
         <br>
-        <!-- si hay mensajes, para poder verlos hay que importarlos como lo hicimos en el view,  se ejecuta el for que va a recorrer todos los errores del objeto de session que contiene todos los mensajes  -->
+        
         {% if messages%}
           {% for message in messages %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
