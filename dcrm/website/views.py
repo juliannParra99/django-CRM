@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 ##maneja mensajes cuando se logea y se desloguea.
 from django.contrib import messages
+#i'll import the method to register
+from .forms import SignUpForm
 
 # Create your views here.
 def home(request):
@@ -36,4 +38,36 @@ def logout_user(request):
     logout(request)
     messages.success(request, "You have been logged out")
     return redirect('home')
-      
+
+
+def register_user(request):
+    # Check if the request method is POST, which means a form is being submitted
+    if request.method == 'POST':
+        # Create a SignUpForm instance with the data from the POST request
+        form = SignUpForm(request.POST)
+        
+        # Check if the form's data is valid
+        if form.is_valid():
+            # Save the form data to create a new user
+            form.save()
+            
+            # Authenticate and log in the newly registered user
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            
+            # Show a success message to the user
+            messages.success(request, "You Have Successfully Registered! Welcome!")
+            
+            # Redirect the user to the 'home' page
+            return redirect('home')
+    else:
+        # If the request method is not POST, create an empty SignUpForm
+        form = SignUpForm()
+        
+        # Render the 'register.html' template with the form
+        return render(request, 'register.html', {'form': form})
+    
+    # Render the 'register.html' template with the form; 'form':form allow to use that form in register.html
+    return render(request, 'register.html', {'form': form})
