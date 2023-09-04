@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect
 ##para manejar autenticacion con modulos de django
 from django.contrib.auth import authenticate, login, logout
-##maneja mensajes cuando se logea y se desloguea.
+
 from django.contrib import messages
-#i'll import the method to register
 from .forms import SignUpForm
+#I grab the model with my data to show it on the page
+from .models import Record
 
 # Create your views here.
 def home(request):
+
+    #asign to this variable ALL the records   inside the model records
+    records =Record.objects.all()
+
+
     # Verificar si la solicitud es un método POST (es decir, se está enviando un formulario)
     if request.method == 'POST':
         username = request.POST['username']
@@ -30,8 +36,8 @@ def home(request):
             # Redirigir de nuevo a la página de inicio
             return redirect('home')
     else:
-        
-        return render(request, 'home.html', {})
+        #if the user is logged we want to show the rocors on home
+        return render(request, 'home.html', {'records':records})
     
 # la funcion logout de django se encarga de toda la logica.
 def logout_user(request):

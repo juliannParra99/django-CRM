@@ -3,9 +3,26 @@
 {% block content %}
 
 <!-- si el usuario esta registrado hago esto -->
-{% if user.is_authenticated %}
 <div class="col-md-6 offset">
-    <h1>hello world</h1>
+
+  {% if user.is_authenticated %}
+  <h1>Records</h1>
+  <!-- traje records por que lo nombre asi en views -->
+  {% if records %}
+    {% for record in records%}
+      {{ record.first_name }}
+      {{ record.last_name }}
+      {{ record.email }}
+      {{ record.phone }}
+      {{ record.adress }}
+      {{ record.city }}
+      {{ record.state }}
+      {{ record.zipcode }}
+      {{ record.created_at }}
+      {{ record.id }}
+    {% endfor%}
+  {% endif %}
+
 </div>
 
 <!--  sino le muestro la pantalla de login -->

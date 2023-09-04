@@ -33,6 +33,7 @@ class Record(models.Model):
     zipcode = models.CharField(max_length=20)
 
     # '__str__' method defines a human-readable representation of the model
+    #by default when we use this model to show our data, just it will show the first and last name
     def __str__(self):
         # It returns a string in the format "First Name Last Name"
         return f"{self.first_name} {self.last_name}"
