@@ -8,4 +8,6 @@ urlpatterns = [
     # path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
     path('register/', views.register_user, name="register"),
+    #to show all data from one record in a new page; <int:pk>: This part is a URL converter. It tells Django to expect an integer value as a primary key (pk) and captures it from the URL. This captured value can then be passed as an argument to the associated view function.
+    path('record/<int:pk>', views.customer_record, name="record"),
 ]

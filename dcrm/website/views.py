@@ -77,3 +77,27 @@ def register_user(request):
     
     # Render the 'register.html' template with the form; 'form':form allow to use that form in register.html
     return render(request, 'register.html', {'form': form})
+
+
+#method to show a particular record; recive a pk difinede on the urls.py : <int:pk>; to return the record with that pk
+def customer_record(request, pk):
+    # Check if the user is authenticated (logged in).
+    if request.user.is_authenticated:
+        # If the user is logged in, proceed with the following steps:
+
+        # Look up a record from the 'Record' model using the provided primary key 'pk'.
+        #just one record, by k
+        customer_record = Record.objects.get(id=pk)
+
+        # Render the 'record.html' template with the 'customer_record' as context data.
+        #we will provide the record in the variable customer_record to pass it to the page
+        return render(request, 'record.html', {'customer_record': customer_record})
+
+    else:
+        # If the user is not authenticated (not logged in), do the following:
+
+        # Display a success message using Django's messaging framework.
+        messages.success(request, "You Must Be Logged In To View That Page...")
+
+        # Redirect the user to the 'home' URL (assumes there is a 'home' URL pattern defined in your Django app).
+        return redirect('home')

@@ -36,7 +36,8 @@
               <td>{{ record.state }}</td>
               <td>{{ record.zipcode }}</td>
               <td>{{ record.created_at }}</td>
-              <td>{{ record.id }}</td>
+              <!-- Es importante el record.id dentro del href ; ademas captura el id y lo envia  a la ruta de records, por eso lo ponemos junto a record -->
+              <td> <a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
             </tr>  
           {% endfor%}
         {% endif %}
