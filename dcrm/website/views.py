@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, AddRecordForm
 #I grab the model with my data to show it on the page
 from .models import Record
 
@@ -113,3 +113,37 @@ def delete_record(request, pk):
         messages.success(request, "You Must Be Logged In.")
         return redirect('home')
    
+
+def add_record(request):
+    return render(request, 'add_record.html', {})
+
+
+#Add record
+def add_record(request):
+    # Create an instance of the 'AddRecordForm' form class, optionally with data from the request
+
+#     The line form = AddRecordForm(request.POST or None) is designed to conditionally initialize the form based on the HTTP request method.
+
+# If the HTTP request method is not POST (typically when a user accesses a page with a GET request, which is used to view the form), then request.POST will be empty. In this case, request.POST or None evaluates to None. Consequently, the form is initialized without any user-submitted data, and it will be displayed in its initial state, ready for the user to input data.
+
+# If the HTTP request method is POST (typically when a user submits a form by clicking a "Submit" button), then request.POST will contain the data submitted by the user. In this case, request.POST or None evaluates to request.POST, and the form is initialized with the user-submitted data, allowing you to validate and process it.
+    form = AddRecordForm(request.POST or None)
+    
+    # Check if the user is authenticated (logged in)
+    if request.user.is_authenticated:
+        # Check if the request method is POST (usually from a form submission)
+        if request.method == "POST":
+            # Check if the form data is valid
+            if form.is_valid():
+                # Save the form data as a new record in the database
+                add_record = form.save()
+                # Display a success message to the user
+                messages.success(request, "Record Added...")
+                # Redirect the user to the 'home' page
+                return redirect('home')
+        # Render the 'add_record.html' template with the form if it's not a POST request or if the form is invalid
+        return render(request, 'add_record.html', {'form': form})
+    else:
+        # If the user is not authenticated, display a message and redirect to the 'home' page
+        messages.success(request, "You Must Be Logged In...")
+        return redirect('home')

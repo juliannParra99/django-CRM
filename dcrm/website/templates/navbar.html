@@ -11,6 +11,9 @@
           <!-- si esta loguado no va a ver  el loging ni el register, por que ya esta en session -->
           {% if user.is_authenticated %}
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_record' %}">Add Record</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
           {% else%}

@@ -12,4 +12,5 @@ urlpatterns = [
     path('record/<int:pk>', views.customer_record, name="record"),
     #if we need to delete a record we want to have the ID as well. Then, we use the courve brackets
     path('delete_record/<int:pk>', views.delete_record, name="delete_record"),
+    path('add_record/', views.add_record, name="add_record"),
 ]

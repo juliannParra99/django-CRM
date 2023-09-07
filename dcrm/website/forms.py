@@ -2,13 +2,10 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import Record
 
 
-# El método __init__ personalizado dentro de la clase SignUpForm se encarga de modificar la apariencia y el comportamiento de los campos específicos en el formulario de registro. Se enfoca en los campos 'username', 'password1' y 'password2' y ajusta las clases de estilo CSS, los marcadores de posición, las etiquetas y los mensajes de ayuda para mejorar la experiencia del usuario durante el proceso de registro. Los campos restantes definidos en la propiedad fields de la clase Meta ('first_name', 'last_name' y 'email') heredan comportamientos de personalización predefinidos del formulario base UserCreationForm. Si se desea, las personalizaciones similares pueden aplicarse a esos campos mediante la extensión de este método o la configuración en la clase Meta.
 
-
-# This class definition SignUpForm is a custom form that inherits from Django's built-in UserCreationForm. The purpose of this form is to collect user registration information. Here, three additional fields are being added:
-# Define a custom form named SignUpForm that inherits from UserCreationForm
 class SignUpForm(UserCreationForm):
     # Define additional fields for the form
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
@@ -41,3 +38,25 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+#Create Add Record Form
+# Define the AddRecordForm class, which inherits from forms.ModelForm
+
+# after generating a model form like the MyModelForm described in the previous example, you can use it in your views.py to create, update, and manage records in your model
+#no se incluye todos los campos que en el dee inicio de session por que queremos guardar usuarios de un tema en especifico. Por ejemplos,  de clientes adquiridos
+class AddRecordForm(forms.ModelForm):
+    # Define form fields for first_name, last_name, email, phone, address, city, state, and zipcode
+    #el requiared para que si o si se solicite
+    first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"First Name", "class":"form-control"}), label="")
+    last_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Last Name", "class":"form-control"}), label="")
+    email = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Email", "class":"form-control"}), label="")
+    phone = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Phone", "class":"form-control"}), label="")
+    address = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Address", "class":"form-control"}), label="")
+    city = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"City", "class":"form-control"}), label="")
+    state = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"State", "class":"form-control"}), label="")
+    zipcode = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Zipcode", "class":"form-control"}), label="")
+
+    # Define the Meta class to specify metadata for the form
+    class Meta:
+        model = Record  # Associate the form with the Record model
+        exclude = ("user",)  # Exclude the "user" field from the form
