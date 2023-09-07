@@ -120,13 +120,7 @@ def add_record(request):
 
 #Add record
 def add_record(request):
-    # Create an instance of the 'AddRecordForm' form class, optionally with data from the request
-
-#     The line form = AddRecordForm(request.POST or None) is designed to conditionally initialize the form based on the HTTP request method.
-
-# If the HTTP request method is not POST (typically when a user accesses a page with a GET request, which is used to view the form), then request.POST will be empty. In this case, request.POST or None evaluates to None. Consequently, the form is initialized without any user-submitted data, and it will be displayed in its initial state, ready for the user to input data.
-
-# If the HTTP request method is POST (typically when a user submits a form by clicking a "Submit" button), then request.POST will contain the data submitted by the user. In this case, request.POST or None evaluates to request.POST, and the form is initialized with the user-submitted data, allowing you to validate and process it.
+    # Create an instance of the 'AddRecordForm' form class, 
     form = AddRecordForm(request.POST or None)
     
     # Check if the user is authenticated (logged in)
@@ -143,6 +137,33 @@ def add_record(request):
                 return redirect('home')
         # Render the 'add_record.html' template with the form if it's not a POST request or if the form is invalid
         return render(request, 'add_record.html', {'form': form})
+    else:
+        # If the user is not authenticated, display a message and redirect to the 'home' page
+        messages.success(request, "You Must Be Logged In...")
+        return redirect('home')
+
+def update_record(request, pk):
+    # Check if the user is authenticated (logged in)
+    if request.user.is_authenticated:
+        # Get the current record to be updated based on the provided 'pk' (primary key)
+        current_record = Record.objects.get(id=pk)
+        
+        # Create an instance of the 'AddRecordForm' form class, initialized with the current record's data
+
+        # It creates an instance of the AddRecordForm form class and initializes it with the data from the current record. This allows the form to be pre-filled with the existing record's data for editing.
+        form = AddRecordForm(request.POST or None, instance=current_record)
+        
+        # Check if the form data is valid
+        if form.is_valid():
+            # Save the form data to update the existing record in the database
+            form.save()
+            # Display a success message to the user
+            messages.success(request, "Record Has Been Updated!")
+            # Redirect the user to the 'home' page
+            return redirect('home')
+        
+        # Render the 'update_record.html' template with the form if it's not valid or not a POST request
+        return render(request, 'update_record.html', {'form': form})
     else:
         # If the user is not authenticated, display a message and redirect to the 'home' page
         messages.success(request, "You Must Be Logged In...")
