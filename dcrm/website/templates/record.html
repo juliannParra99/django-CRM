@@ -41,7 +41,7 @@
 
 <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 
-<a href="{% url 'update_record' customer_record.id %}" class="btn btn-secondary">Update Record</a>
+<a href="{% url 'update_record' customer_record.id %}" class="btn btn-secondary">Update Customer</a>
 <!-- ahora el nombre de la url es el que le pertenece a la url de borrar, que es un metodo para borrrar el registro y refirijir hacia la ruta home. el metodo necesita que le pasen el id, asique por eso le sumamos a la url el customer.record.id -->
 <a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger">Delete</a>
 
